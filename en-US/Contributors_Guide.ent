@@ -1,4 +1,4 @@
-<!ENTITY PRODUCT "Documentation">
+<!ENTITY PRODUCT "CloudStack">
 <!ENTITY BOOKID "Contributors_Guide">
 <!ENTITY YEAR "2012">
-<!ENTITY HOLDER "| You need to change the HOLDER entity in the en-US/Contributors_Guide.ent file |">
+<!ENTITY HOLDER "CloudStack Community">
