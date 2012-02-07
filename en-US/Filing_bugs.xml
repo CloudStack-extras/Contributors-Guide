@@ -4,31 +4,182 @@
 %BOOK_ENTITIES;
 ]>
 <chapter id="chap-Contributors_Guide-Filing_bugs">
-	<title>Filing Bugs</title>
-	<para>
-		Feature requests and software defects are tracked in 
-                CloudStack's 
-	</para>
-	<section id="sect-Contributors_Guide-Test_Chapter-Test_Section_1">
-		<title>Test Section 1</title>
-		<para>
-			This is a test paragraph in a section
-		</para>
-	</section>
-	
-	<section id="sect-Contributors_Guide-Test_Chapter-Test_Section_2">
-		<title>Test Section 2</title>
-		<para>
-			This is a test paragraph in Section 2
-			<orderedlist>
-				<listitem>
-					<para>
-						listitem text
-					</para>
-				</listitem>
-			</orderedlist>
-		</para>
-	</section>
+  <title>Filing Bugs</title>
+  <para>
+    Feature requests and software defects are tracked in 
+    CloudStack's bug tracker at 
+    <ulink url="http://bugs.cloud.com">http://bugs.cloud.com</ulink>
+    Understanding the bug lifecycle, as well as the important
+    facts necessary to debug and work on bugs makes the development
+    and bug remediation process far more efficient. 
+  </para>
+  <section id="sect-Contributors_Guide-Filing_bugs-searching">
+    <title>Searching for bugs</title>
+    <para>
+      It's important to search existing bug reports to ensure 
+      that duplicate bug reports aren't filed. In addition 
+      by searching for an existing bug report you may find 
+      workarounds or solutions to the problems you are 
+      experiencing.
+    </para>
 
+    <para> 
+      The default search settings in CloudStack's bug tracker
+      only searches for bugs that are in NEW and ASSIGNED state
+      thus you need to use the search page and expand the state
+      of bugs you are searching to find bugs that may have already
+      been noted and fixed.
+    </para>
+  </section>
+	
+  <section id="sect-Contributors_Guide-Filing_bugs-Anatomy_of_a_bug">
+    <title>Anatomy of a bug</title>
+    <para>
+      The following are the most important fields that need to be
+      completed when filing a new bug.
+      <orderedlist>
+        <listitem>
+          <para>
+            Component - The part of CloudStack that is affected. 
+            If there is a doubt as to which component to choose, use
+            'Management Server'. 
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+             Version - This is the version of CloudStack affected. If you are 
+             using a pre-release or development version of CloudStack, use the
+             development branch name. (i.e. if working on a pre-release version
+             of the next 2.2 release, use the tag 2.2.y)
+           </para>
+        </listitem>
+        <listitem>
+          <para>
+            Summary - Provide a short descriptive summary of the problem. 
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Description - This is where the bulk of details should go. See the
+            section that follows on bug description
+          </para>
+        </listitem>
+      </orderedlist>
+    </para>
+  </section>
+  <section id="sect-Contributors_Guide-Filing_bugs-Bug_Description">
+    <title>Bug Description</title>
+    <para>
+      The description field is where the majority of bug description will need to be provided.
+      This may include log snippets, error messages, and other information. Most
+      importantly it should provide a clear description of the issue, the expected behavior as well
+      as directions on reproducing the bug. 
+    </para>
+    <para>
+      If the bug is a UI bug, please attach a screenshot at a minimum. It's also helpful to have
+      the web services API call and response that was made for the UI issue. Common tools for this
+      this include Firebug for <application>Mozilla Firefox</application>. Most if not all modern browsers have a similiar
+      development tool. By adding this information, it will allow engineers to more quickly determine
+      the issue. 
+    </para>
+    <para>
+      You should also attach all of the appropriate logs for the issue in question. 
+    </para>
+  </section>
+  <section id="sect=Contributors_guide-Filing_bugs-Logs">
+    <title>Finding Logs</title>
+    <para> 
+      Logs prpovide a window into what CloudStack is actually doing at the time of a given issue, and 
+      bugs are often enigmatic at best without them. CloudStack's logs are actually pretty verbose, and
+      there are a number of logs available to CloudStack administrators. 
+    </para>
+    <section id="sect=Contributors_guide-Filing_bugs-Logs-mgmt_server">
+      <title>Management Server Logs</title>
+      <para>
+        Management server logs are located at /var/log/cloud/management/ on the management server
+      </para>
+      <para>
+        You will find the following logs useful:
+        <orderedlist>
+          <listitem>
+            <para>management-server.log - This is the primary management server log and should be included
+                  for virtually every bug
+            </para> 
+          </listitem>
+          <listitem>
+            <para>api-server.log - This logs all web services API requests and should be attached if you 
+                  believe the issue is API related. 
+            </para>
+          </listitem>
+          <listitem>
+            <para>catalina.out - 
+                  Logs generated by the JVM or not caught by CloudStack. It is not common to need this particular
+                  log. but it can be useful for finding deadlock issues or out of memory issues. This is also where
+                  you will find any output from the 'kill -3 PID' troubleshooting tool. 
+            </para>
+          </listitem>
+        </orderedlist>
+      </para>
+    </section>
+    <section if="sect=Contributors_guide-Filing_bugs-Logs-Xenserver">
+      <title>XenServer logs</title>
+      <para>If you are using the XenServer hypervisor you might need to attach the logs from the affected XenServer nodes
+            Typically, you should only need to acquire the logs from the master node from each cluster/pool. 
+      </para>
+      <para>XenServer logs are located at /var/log/ and you will find the following logs useful:
+        <orderedlist>
+          <listitem>
+            <para>xensource.log - 
+                  This is the primary log for XenServer. This should be attached with almost every XenServer-related bug.
+            </para>
+          </listitem>
+          <listitem>
+            <para>SMlog - 
+                  This log contains everything related to XenServer plugins. All CloudStack customized plugins log 
+                  to this file. It should be included with almost every XenServer-related bug. 
+            </para>
+          </listitem>
+          <listitem>
+            <para>messages - 
+                  This log contains details for solving issues related to the kernel or storage drivers. It might be necessary
+                  for XenServer issues.
+            </para>
+          </listitem>
+        </orderedlist>
+      </para>
+    </section>
+    <section id="sect=Contributors_guide-Filing_bugs-Logs-KVM">
+      <title>KVM logs</title>
+      <para>If you are making use of the KVM hypervisor you might need to attach the logs from the affected nodes. KVM logs
+            stored in /var/log/cloud/agent/
+      </para>
+      <para>
+            You will find the following logs useful:
+        <orderedlist>
+          <listitem>
+            <para>
+              agent.log - 
+              This is the primary log file for KVM nodes. This should be attached with every KVM bug. 
+            </para>
+          </listitem>
+        </orderedlist>
+      </para>
+     </section>
+     <section id="sect=Contributors_guid-Filing_bugs-Logs-VMware">
+       <title>VMware Logs</title>
+       <para>If you are using the VMWare hypervisors, you should also attach logs from the vCenter managing the ESX clusters.  To do this:
+         <orderedlist>
+           <listitem>
+              <para>Log into you vCenter Client and choose "Administration" and then "Export System Log"</para>
+           </listitem>
+           <listitem>
+              <para>Under the 
+       </para>
+    </section>
+  </section>
+
+    <para>
+
+  </section>
 </chapter>
 
